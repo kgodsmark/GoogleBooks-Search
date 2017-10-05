@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      bookCategory: '',
       search: '',
       books: []
     }
     this.handleKeywords = this.handleKeywords.bind(this);
     this.fetchBooks = this.fetchBooks.bind(this);
     this.filterBooks = this.filterBooks.bind(this);
+    this.handleCategory = this.handleCategory.bind(this)
   };
 
-  componentWillMount() {
-    this.fetchBooks('cake');
-  }
+  // componentWillMount() {
+  //   this.fetchBooks('javascript');
+  // }
 
   render() {
     return (
@@ -23,8 +24,11 @@ class App extends Component {
         <header>
           <h1>Super Duper Book Selection</h1>
         </header>
+        <p>Choose a category:</p>
+        <button onClick={this.handleCategory} value="javascript">Javascript - I want to study</button>
+        <button onClick={this.handleCategory} value="cake">Cake - I want to bake!</button>
         <form>
-          <input onChange={this.handleKeywords} type="text" placeholder="Enter keywords..." value={this.state.search}></input>
+          <input onChange={this.handleKeywords} type="text" placeholder="Filter your selection by..." value={this.state.search}></input>
         </form>
         <div>
           {this.filterBooks().map((book) => {
@@ -38,6 +42,14 @@ class App extends Component {
         </div>
       </div>
     );
+  }
+
+  handleCategory(e) {
+    console.log(e.target.value)
+    e.preventDefault();
+    this.setState({
+      bookCategory: this.fetchBooks(e.target.value)
+    });
   }
 
   handleKeywords(e) {
